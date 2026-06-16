@@ -52,7 +52,8 @@ def build():
             cmd.append("--icon=NONE")
     elif effective == "Darwin":
         cmd.append("--noconsole")
-        cmd.append("--osx-bundle-identifier", "com.pdf2curves.app")
+        cmd.append("--osx-bundle-identifier")
+        cmd.append("com.pdf2curves.app")
     else:
         cmd.append("--noconsole")
 

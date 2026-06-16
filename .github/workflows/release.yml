@@ -40,6 +40,39 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: dist/PDFtoCurves.exe
-          asset_name: PDFtoCurves.exe
+          asset_name: PDFtoCurves-Windows.exe
+          tag: ${{ github.ref }}
+          overwrite: true
+
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install pyinstaller customtkinter pillow
+
+      - name: Install Ghostscript
+        run: brew install ghostscript
+
+      - name: Build executable
+        run: python build_app.py --macos
+
+      - name: Create zip archive
+        run: |
+          cd dist
+          zip -r ../PDFtoCurves-macOS.zip PDFtoCurves.app
+
+      - name: Upload macOS app to Release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: PDFtoCurves-macOS.zip
+          asset_name: PDFtoCurves-macOS.zip
           tag: ${{ github.ref }}
           overwrite: true
