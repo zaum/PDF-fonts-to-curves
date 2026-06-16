@@ -6,6 +6,9 @@ on:
       - "v*.*.*"
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build-windows:
     runs-on: windows-latest
@@ -43,6 +46,7 @@ jobs:
           tag_name: ${{ github.ref_name }}
           fail_on_unmatched_files: false
           generate_release_notes: true
+          make_latest: true
 
   build-macos:
     runs-on: macos-latest
