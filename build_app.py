@@ -45,7 +45,11 @@ def build():
     # Platform-specific flags
     if effective == "Windows":
         cmd.append("--noconsole")
-        cmd.append("--icon=NONE")
+        ico = os.path.join(os.path.dirname(__file__), "app.ico")
+        if os.path.isfile(ico):
+            cmd.append(f"--icon={ico}")
+        else:
+            cmd.append("--icon=NONE")
     elif effective == "Darwin":
         cmd.append("--noconsole")
         cmd.append("--osx-bundle-identifier", "com.pdf2curves.app")

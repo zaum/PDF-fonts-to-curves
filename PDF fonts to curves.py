@@ -228,6 +228,12 @@ class App(TkinterDnD.DnDWrapper, ctk.CTk):
         self.resizable(False, False)
         self.attributes('-topmost', True)
         self.configure(fg_color=BG)
+        try:
+            ico = os.path.join(get_app_dir(), "app.ico")
+            if os.path.isfile(ico):
+                self.iconbitmap(ico)
+        except Exception:
+            pass
 
         self.fn_font = ctk.CTkFont(size=26)
         self.sm_font = ctk.CTkFont(size=20)
