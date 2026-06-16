@@ -35,14 +35,14 @@ jobs:
       - name: Build executable
         run: python build_app.py
 
-      - name: Upload exe to Release
-        uses: svenstaro/upload-release-action@v2
+      - name: Upload to Release
+        uses: softprops/action-gh-release@v2
         with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: dist/PDFtoCurves.exe
-          asset_name: PDFtoCurves-Windows.exe
-          tag: ${{ github.ref }}
-          overwrite: true
+          files: dist/PDFtoCurves.exe
+          name: PDFtoCurves ${{ github.ref_name }}
+          tag_name: ${{ github.ref_name }}
+          fail_on_unmatched_files: false
+          generate_release_notes: true
 
   build-macos:
     runs-on: macos-latest
@@ -68,11 +68,11 @@ jobs:
           cd dist
           zip -r ../PDFtoCurves-macOS.zip PDFtoCurves.app
 
-      - name: Upload macOS app to Release
-        uses: svenstaro/upload-release-action@v2
+      - name: Upload to Release
+        uses: softprops/action-gh-release@v2
         with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: PDFtoCurves-macOS.zip
-          asset_name: PDFtoCurves-macOS.zip
-          tag: ${{ github.ref }}
-          overwrite: true
+          files: PDFtoCurves-macOS.zip
+          name: PDFtoCurves ${{ github.ref_name }}
+          tag_name: ${{ github.ref_name }}
+          fail_on_unmatched_files: false
+          generate_release_notes: false
