@@ -20,8 +20,17 @@ jobs:
         run: |
           pip install pyinstaller customtkinter pillow tkinterdnd2
 
-      - name: Download Ghostscript
-        run: python download_gs.py
+      - name: Install Ghostscript
+        run: |
+          choco install ghostscript --no-progress --limit-output
+          $gsSrc = Get-ChildItem "C:\Program Files\gs\gs*" -Directory | Select-Object -First 1
+          if ($gsSrc) {
+            $versionDir = "gs" + $gsSrc.Name -replace '^gs', ''
+            New-Item -ItemType Directory -Path "gs/$versionDir" -Force
+            Copy-Item -Path "$($gsSrc.FullName)\*" -Destination "gs/$versionDir" -Recurse -Force
+          } else {
+            python download_gs.py
+          }
 
       - name: Build executable
         run: python build_app.py
